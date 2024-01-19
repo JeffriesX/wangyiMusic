@@ -1,30 +1,43 @@
 
-import { getMusicList } from '@/api/findmusic'
+import { getItemList } from '@/api/findmusic'
 export default {
-  namespace: true,
+  namespaced: true,
   state () {
     return {
       footerBar: [{
         al: {
-          id: 34928767,
-          name: '天若有情',
-          pic: 109951165958851920,
-          picUrl: 'http://p2.music.126.net/hzs4pVOxFKS5J64nY-rugA==/109951165958851914.jpg',
-          pic_str: '109951165958851914'
-        }
+          id: 3186121,
+          name: '悟空',
+          pic: 3333719255417035,
+          picUrl: 'https://p2.music.126.net/gn4pPKc_Wk3EyByfi86lUQ==/3333719255417035.jpg'
+        },
+        ar: [{ name: '歌手' }],
+        id: 33162226
       }],
-      id: 438204707
+      defaultIndex: 0,
+      isPlayBtnShow: false
     }
   },
   mutations: {
     setMusicList (state, newlist) {
       state.footerBar = newlist
+      // state.defaultIndex = newlist
+      // console.log(state.footerBar)
+    },
+    defaultIndexUpdate (state, newVal) {
+      state.defaultIndex = newVal
+      // console.log(newVal)
+    },
+    isPlayBtnShow (state, newVal) {
+      state.isPlayBtnShow = newVal
     }
   },
   actions: {
-    async getMusicList (context) {
-      const { data } = await getMusicList()
-      context.commit('setMusicList', data.playlist)
+    async getItemList (context, musicId) {
+      const { data } = await getItemList(musicId)
+      context.commit('setMusicList', data.songs)
+      // console.log(musicId)
+      // console.log(data)
     }
   }
 }

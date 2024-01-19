@@ -52,13 +52,13 @@
         <div class="playAll">
           <i class="playBtn iconfont">&#xe833;</i>
           <div class="text-left">全部播放</div>
-          <div class="text-right">(共1000首)</div>
+          <div class="text-right">(共{{ playlist.trackCount }}首)</div>
         </div>
-        <div class="collect-btn">+ 收藏(1668)</div>
+        <div class="collect-btn">+ 收藏({{ playlist.trackCount }})</div>
       </div>
       <div class="tracks-list">
-        <div class="musicList" v-for="(item, i) in singer" :key="item.id">
-          <div class="musicItem">
+        <div class="musicList" v-for="(item, i) in tracks" :key="item.id">
+          <div class="musicItem" @click="playMusic(i)">
             <div class="sort">{{ i+1 }}</div>
             <div class="musicName">
               <div class="name">{{ item.al.name }}</div>
@@ -88,19 +88,28 @@ export default {
   data () {
     return {
       playlist: [],
-      singer: '',
+      tracks: '',
+      musicListId: this.$route.params.id,
       scrollTop: 0
+    }
+  },
+  methods: {
+    playMusic (defaultNum) {
+      this.$store.dispatch('footerBar/getItemList', this.playlist.id)
+      this.$store.commit('footerBar/defaultIndexUpdate', defaultNum)
+      this.$store.commit('footerBar/isPlayBtnShow', true)
+      // console.log(this.footerList)
     }
   },
   async created () {
     const { data } = await getMusicList(
-      this.getMusicId
+      this.musicListId
     )
     // console.log(data)
     this.playlist = data.playlist
-    this.singer = data.playlist.tracks
-    // console.log(this.singer.ar[0])
-    console.log(this.singer)
+    this.tracks = data.playlist.tracks
+    // console.log(this.tracks.ar[0])
+    // console.log(this.playlist)
 
     window.addEventListener('scroll', function () {
       const topBar = document.querySelector('.topBar')

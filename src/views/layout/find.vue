@@ -37,7 +37,7 @@
           <div class="buttom-item">
             <div class="pic-item"
                   v-for="item in findMusic" :key="item.id"
-                  @click="$router.push(`/findmusic/${item.id}`)">
+                  @click="$router.push(`findmusic/${item.id}`)">
               <div class="picBox" :style="{backgroundImage:`url(${item.picUrl})`}">
                 <div class="playCount">▶{{changeCount(item.playCount)}}</div>
               </div>
@@ -64,7 +64,7 @@ export default {
     this.images = banners
 
     const { data: { result } } = await findMusic()
-    // console.log(result)
+    console.log(result)
     this.findMusic = result
   },
   methods: {

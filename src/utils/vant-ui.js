@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import { Lazyload, Button, Cell, NavBar, Icon, Swipe, SwipeItem } from 'vant'
+import { Popup, Lazyload, Button, Cell, NavBar, Icon, Swipe, SwipeItem } from 'vant'
+Vue.use(Popup)
 Vue.use(Lazyload)
 Vue.use(Button)
 Vue.use(Cell)

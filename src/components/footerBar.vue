@@ -1,22 +1,60 @@
 <template>
     <div class="footerBar">
       <div class="footer-left">
-        <img src="https://p1.music.126.net/8kppJUKiT2db029QyqtoeQ==/7819726697159115.jpg" alt="" class="placardImg">
+        <img :src="footerBar[defaultIndex].al?.picUrl" alt="" class="placardImg">
         <div class="musicName-singer">
-          <div class="music-name">歌名</div>
-          <div class="music-singer">歌手</div>
+          <div class="music-name">{{ footerBar[defaultIndex].al?.name }}</div>
+          <div class="music-singer">{{ footerBar[defaultIndex].ar[0].name }}</div>
         </div>
       </div>
       <div class="footer-right">
-        <i class="play-btn iconfont">&#xe833;</i>
+        <i class="play-btn iconfont" @click="playMusicBtn()">&#xe833;</i>
         <i class="menu-btn iconfont">&#xee33;</i>
       </div>
+      <audio class="audioSet" :src="`https://music.163.com/song/media/outer/url?id=${footerBar[defaultIndex].id}.mp3 `"></audio>
     </div>
   </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-  name: 'footerIndex'
+  data () {
+    return {
+      audioFlag: false
+    }
+  },
+  name: 'footerIndex',
+  computed: {
+    ...mapState('footerBar', ['footerBar', 'defaultIndex', 'isPlayBtnShow'])
+  },
+  methods: {
+    playMusicBtn () {
+      const audioSet = document.querySelector('.audioSet')
+      const playBtn = document.querySelector('.play-btn')
+      if (audioSet.paused === true) {
+        audioSet.play()
+        playBtn.innerHTML = '&#xe831;'
+      } else {
+        audioSet.pause()
+        playBtn.innerHTML = '&#xe833;'
+      }
+    }
+  },
+  watch: {
+    isPlayBtnShow (newVal) {
+      const audioSet = document.querySelector('.audioSet')
+      const playBtn = document.querySelector('.play-btn')
+      if (newVal === true) {
+        audioSet.autoplay = true
+        playBtn.innerHTML = '&#xe831;'
+      } else {
+        audioSet.pause()
+        playBtn.innerHTML = '&#xe833;'
+      }
+    },
+    deep: true,
+    immediate: true
+  }
 }
 </script>
 
@@ -60,6 +98,7 @@ export default {
       }
       .menu-btn{
         font-size: 30px;
+        margin-left: 10px;
       }
     }
   }
